@@ -1,173 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>InspireMe | Daily Inspiration</title>
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Inspirational Quotes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
     body {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #fff;
+      margin: 0;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header h1 {
-      font-weight: 600;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      margin-left: 20px;
-      font-size: 14px;
-    }
-
-    .hero {
-      flex: 1;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
+      align-items: center;
+      background: linear-gradient(135deg, #1d2671, #c33764);
+      font-family: Arial, Helvetica, sans-serif;
+      color: #fff;
     }
 
-    .card {
+    .container {
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(10px);
-      border-radius: 16px;
       padding: 40px;
-      max-width: 700px;
-      width: 100%;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      border-radius: 15px;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
     }
 
-    .card h2 {
-      font-weight: 600;
+    h1 {
       margin-bottom: 20px;
     }
 
     .quote {
-      font-size: 20px;
+      font-size: 22px;
       font-style: italic;
+      line-height: 1.5;
       margin-bottom: 15px;
-      line-height: 1.6;
     }
 
     .author {
       font-size: 14px;
-      opacity: 0.9;
-      margin-bottom: 30px;
+      opacity: 0.85;
+      margin-bottom: 25px;
     }
 
     button {
-      background: #fff;
-      color: #764ba2;
-      border: none;
       padding: 12px 30px;
-      border-radius: 30px;
+      border: none;
+      border-radius: 25px;
+      background: #fff;
+      color: #c33764;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
     }
 
     button:hover {
-      background: #f0f0f0;
       transform: translateY(-2px);
+      background: #f1f1f1;
     }
 
     footer {
-      text-align: center;
-      padding: 15px;
+      margin-top: 20px;
       font-size: 12px;
-      opacity: 0.8;
-    }
-
-    .loading {
-      font-size: 16px;
-      opacity: 0.8;
-    }
-
-    @media (max-width: 600px) {
-      .card {
-        padding: 25px;
-      }
-
-      .quote {
-        font-size: 18px;
-      }
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>InspireMe</h1>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Quotes</a>
-      <a href="#">About</a>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <div class="card">
-      <h2>Daily Inspiration</h2>
-      <p id="quote" class="quote loading">Loading inspiration...</p>
-      <p id="author" class="author"></p>
-      <button onclick="fetchQuote()">Get New Quote</button>
-    </div>
-  </section>
-
-  <footer>
-    © 2025 InspireMe • Powered by Public API
-  </footer>
+  <div class="container">
+    <h1>Daily Inspiration</h1>
+    <p id="quote" class="quote">Loading inspirational quote...</p>
+    <p id="author" class="author"></p>
+    <button onclick="getQuote()">New Quote</button>
+    <footer>Powered by Public API</footer>
+  </div>
 
   <script>
-    const quoteEl = document.getElementById("quote");
-    const authorEl = document.getElementById("author");
+    const quoteElement = document.getElementById("quote");
+    const authorElement = document.getElementById("author");
 
-    async function fetchQuote() {
-      quoteEl.textContent = "Fetching inspiration...";
-      authorEl.textContent = "";
+    async function getQuote() {
+      quoteElement.textContent = "Loading...";
+      authorElement.textContent = "";
 
       try {
         const response = await fetch("https://api.quotable.io/random");
-        if (!response.ok) {
-          throw new Error("API Error");
-        }
-
         const data = await response.json();
-        quoteEl.textContent = `"${data.content}"`;
-        authorEl.textContent = `— ${data.author}`;
+
+        quoteElement.textContent = `"${data.content}"`;
+        authorElement.textContent = `— ${data.author}`;
       } catch (error) {
-        quoteEl.textContent = "Unable to load inspiration. Please try again.";
-        authorEl.textContent = "";
+        quoteElement.textContent = "Failed to load quote. Please try again.";
       }
     }
 
     // Load quote on page load
-    fetchQuote();
+    getQuote();
   </script>
 
 </body>
